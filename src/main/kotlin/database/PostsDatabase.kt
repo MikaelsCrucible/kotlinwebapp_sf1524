@@ -5,7 +5,6 @@ import java.sql.DriverManager
 import java.sql.ResultSet
 
 class PostsDatabase {
-
   private val url = "jdbc:sqlite:./src/main/resources/database/posts.db"
   private val connection = connectTo(url)
 
@@ -26,6 +25,11 @@ class PostsDatabase {
     val query = connection.createStatement()
     query.executeUpdate("INSERT INTO posts (title, body) VALUES ('${post.title}', '${post.body}');")
     println("Inserted... ${post.title}")
+  }
+
+  fun deletePost(id: Int) {
+    val query = connection.createStatement()
+    query.executeUpdate("DELETE FROM posts WHERE id = $id") // im so shcocked this sql sentence is auto generated
   }
 
   fun loadAllPosts(): List<Post> {
@@ -49,8 +53,8 @@ fun main() {
   val postsDatabase = PostsDatabase()
 
   // Initialise the database
-  postsDatabase.createTable()
-  postsDatabase.insertSomeData()
+  // postsDatabase.createTable()
+  // postsDatabase.insertSomeData()
 
   // Query some data
   val posts = postsDatabase.loadAllPosts()
